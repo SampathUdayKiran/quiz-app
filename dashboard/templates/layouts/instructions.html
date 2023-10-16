@@ -1,0 +1,35 @@
+{% extends 'layouts/base.html' %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'assessment.css' %}">
+<div class="instructions-page">
+    <title>Exam Instructions</title>
+    <header>
+        <h1>Exam Instructions</h1>
+    </header>
+    <main>
+        <h2>General Instructions</h2>
+        <ol>
+            <li>This is a closed-book, closed-notes exam. You may only use the materials provided by the instructor.
+            </li>
+            <li>You will have ten minutes to complete the exam.</li>
+            <li>Read the instructions for each question carefully before answering.</li>
+            <li>Do not leave any questions unanswered.</li>
+            <li>You are not allowed to communicate with any other student during the exam.</li>
+            <li>Navigation between the Questions is not allowed</li>
+        </ol>
+        <h2>Technical Instructions</h2>
+        <ol>
+            <li>Make sure your device is fully charged before the exam.</li>
+            <li>You must have a stable internet connection throughout the exam.</li>
+            <li>You must use the provided browser for the exam. Do not open any other tabs or windows.</li>
+            <li>If you experience any technical issues write a mail to our support team.</li>
+        </ol>
+        <p><strong>Violation of any of these instructions may result in a penalty, including a deduction of points or a
+                failing grade for the exam. </strong></p>
+    </main>
+    <div>
+        <a href="/start_quiz"><button type="button" class="btn btn-success i-btn" id="start-assessment">Start Assessment</button></a>
+    </div>
+</div>
+{%endblock%}

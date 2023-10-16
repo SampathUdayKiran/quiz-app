@@ -1,0 +1,150 @@
+{% extends 'layouts/base.html' %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'assessment.css' %}">
+
+
+<div class="assessment-page-main">
+    <div class="assessment-nav">
+
+        <div>
+            <span style="font-size: 30px; font-family: 'Gill Sans'">Assessment on Data Structures</span>
+        </div>
+        <div>
+            <span style="font-size: 18px;" id="time">Time Left: 1:00</span>
+        </div>
+        <div>
+            <a href="/result" class="btn btn-success">Submit Assessment</a>
+        </div>
+    </div>
+    <div class="questions-section">
+        <div class="question-details">
+            <span style="font-size: 20px;">Question:{{ current_question }}/{{number_of_questions}}</span>
+            <div class="mark-scheme">Marks:
+                <div style="background-color: rgb(30, 255, 0); width:30px; margin-left: 20px;">
+                    +1
+                </div>
+                <div style="background-color: red; width:30px; margin-left: 20px;">
+                    -0
+                </div>
+            </div>
+        </div>
+
+        <div class="question">
+            <p style="font-size: 20px;">{{question.question}}</p>
+        </div>
+        <form action="" method="post">
+            {% csrf_token %}
+            <div class="options">
+                <input type="radio" id="option1" name="response" value="1">
+                <label for="option1">{{ question.option_1 }}</label><br>
+                <input type="radio" id="option2" name="response" value="2">
+                <label for="option2">{{ question.option_2 }}</label><br>
+                <input type="radio" id="option3" name="response" value="3">
+                <label for="option3">{{ question.option_3 }}</label><br>
+                <input type="radio" id="option4" name="response" value="4">
+                <label for="option4">{{ question.option_4 }}</label><br>
+                <input value="{{question.id}}" name="question_id" style="display:none">
+            </div>
+            <div class="save-options">
+                {% if current_question < number_of_questions %} <button type="submit" class="btn btn-success" id="save">Save
+                    &next</button>
+                    {% endif %}
+                    {% if current_question == number_of_questions %}
+                    <button type="submit" class="btn btn-success" id="submit">Submit</button>
+                    {% endif %}
+            </div>
+        </form>
+    </div>
+
+    <div class="question-grid">
+        <!-- <video id="camera" autoplay style="width:300px"></video> -->
+        <h1>Status</h1>
+        <div class="buttons-main" style="width:160%">
+            {% for question in question_status%}
+
+            {% if question == 'not_visited'%}
+            <div class="column">
+                <div class="button" style="background-color: white;">{{ forloop.counter }}</div>
+            </div>
+            {% endif%}
+            {% if question == 'answered'%}
+            <div class="column">
+                <div class="button" style="background-color: green;">{{ forloop.counter }}</div>
+            </div>
+            {% endif%}
+            {% if question == 'not_answered'%}
+            <div class="column">
+                <div class="button" style="background-color: red;">{{ forloop.counter }}</div>
+            </div>
+            {% endif%}
+            {% endfor %}
+
+        </div>
+    </div>
+
+</div>
+
+<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-basic-title">Confirm Submission</h4>
+                <button type="button" class="btn-close" aria-label="Close" data-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div
+                    style="font-size: 20px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
+                    Total Number of Questions:{{ totalQuestions }}
+                </div>
+                <div
+                    style="font-size: 20px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
+                    Number of Attempted Questions:{{ attempted }}
+                </div>
+                <p
+                    style="font-size: 20px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
+                    Are you sure to Submit</p>
+            </div>
+            <div class="modal-footer">
+                <a href="/result" class="btn btn-outline-dark">Submit Assessment</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <button id="startRecord">Start Recording</button>
+<button id="stopRecord" disabled>Stop Recording</button>
+<video id="recorded" controls></video> -->
+
+<script>
+    var examDurationInSeconds = parseInt('{{duration}}');
+    console.log(examDurationInSeconds)
+    function startCountdown() {
+        var timerElement = document.getElementById("time");
+        console.log(timerElement);
+        var endTime = new Date().getTime() + examDurationInSeconds * 1000;
+        function updateTimer() {
+            var currentTime = new Date().getTime();
+            var timeLeft = endTime - currentTime;
+
+            if (timeLeft <= 0) {
+                timerElement.textContent = "Time's up!";
+                submit();
+            } else {
+                var minutes = Math.floor(timeLeft / 60000);
+                var seconds = Math.floor((timeLeft % 60000) / 1000);
+                timerElement.textContent =
+                    "Time left: " + minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+                setTimeout(updateTimer, 1000);
+            }
+        }
+        updateTimer();
+    }
+    startCountdown();
+
+    function submit() {
+        document.getElementById("save").click();
+    }
+</script>
+
+{%endblock%}

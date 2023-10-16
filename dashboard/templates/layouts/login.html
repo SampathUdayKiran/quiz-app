@@ -1,0 +1,41 @@
+{% extends 'layouts/base.html' %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'login.css' %}">
+
+<div class="login-page">
+    <div class="login-form">
+        <h2 class="text-uppercase text-center mb-5">User Login</h2>
+        <form method="post" action="">
+            {% csrf_token %}
+            <div class="form-outline mb-4">
+                <label class="form-label" for="email">User Name</label>
+                <input type="text" id="email" class="form-control" name="username" placeholder="username" >
+            </div>
+            <div class="form-outline mb-4">
+                <label class="form-label" for="password">Password</label>
+                <input type="password" id="password" class="form-control" name="password" placeholder="password"
+                    required>
+            </div>
+            <div class="row mb-4">
+                <div class="col d-flex justify-content-center">
+                    <div class="form-check">
+                        {% for message in messages%}
+                        <h3 style="color:red">{{message}}</h3>
+                        {% endfor %}
+                  
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-primary btn-block mb-4">Log In</button>
+            </div>
+            <div class="text-center">
+                <p>Not a member? <a href="register">Register</a></p>
+            </div>
+        </form>
+  
+    </div>
+</div>
+
+{%endblock%}

@@ -1,0 +1,37 @@
+{% extends 'layouts/base.html' %}
+{% block content %}
+{% load static %}
+<div class="results-page">
+    <link rel="stylesheet" type="text/css" href="{% static 'result.css' %}">
+    <div class="results-header" style="text-align: center; padding: 20px;">
+        <h1>You have successfully submitted your test</h1>
+    </div>
+    <hr>
+    <a href="/dashboard"><button type="button" class="btn btn-success h-btn" id="home-nav"   style="float:right">Home</button></a>
+    <div class="result-main">
+        <h3 style="text-align: center; padding: 20px; width:100%;">Your Result</h3>
+        <div class="result-box">
+            <div class="result-page-1">
+                <span>Total Number of Question</span><br><br>
+                <span>Number of Questions answered</span><br><br>
+                <span>Number of Questions answered Correct</span><br><br>
+                <span>Number of Questions answered Wrong</span><br><br>
+                <span>Marks Secured </span><br><br>
+            </div>
+            <div class="results-page-2">
+                <span>: <strong style="padding-left: 5px;">{{ totalQuestions }}</strong></span><br><br>
+                <span>: <strong style="padding-left: 5px;">{{ attempted }}</strong></span><br><br>
+                <span>: <strong style="padding-left: 5px;">{{ correct }}</strong></span><br><br>
+                <span>: <strong style="padding-left: 5px;">{{ wrong }}</strong></span><br><br>
+                <span>: <strong style="padding-left: 5px;">{{ score }}/{{ total_marks }}</strong></span><br><br>
+            </div>
+            <div class="percentage">
+                <p style="text-align: center;">{{marks_percentage}}%</p>
+            </div>
+        </div>
+    </div>
+    <div class="results-header" style="text-align: center; padding-top: 50px;">
+        <h1>All the best!</h1>
+    </div>
+</div>
+{%endblock%}

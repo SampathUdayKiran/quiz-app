@@ -1,0 +1,87 @@
+{% extends 'layouts/base.html' %}
+{% block content %}
+<div class="dashboard-main">
+    <div class="navigation-main">
+        <div class="nav-head">
+            <h1>Welcome to Online Exam Portal</h1>
+        </div>
+        <div class="navigation">
+            <a href="/instructions"><button type="button" id="change-url-button" class="btn btn-success">Start New
+                    Test</button></a>
+
+            <a href="/logout"> <button style="margin-left: 50px;" type="button" class="btn btn-danger">Log
+                    Out</button></a>
+        </div>
+    </div>
+    <div class="dashboard-body">
+        <div class="User-profile">
+            <div class="user-details">
+                <div class="user-details-inner">
+                    <p style="font-size: 32px; text-align: center;"><strong>Welcome {{user.first_name }}
+                            {{user.last_name}}</strong></p>
+                    <p><b style="padding: 5px;">Email: </b>{{user.email}}</p>
+                    <!-- <p><b style="padding: 5px">Phone No: </b>9908107025</p> -->
+                </div>
+            </div>
+            <div class="test-activity">
+                <div class="test-activity-inner" style="text-align: justify;">
+                    <p style="font-size: 32px; line-height: 2; text-align: center;"><strong>Your Test Activity:</strong>
+                    </p>
+                    <hr style="font-size: 20px;">
+                    <p><b style="padding: 5px">Number of Tests Attempted:</b>{{user_accuracy.number_of_tests}}</p>
+                    <p><b style="padding: 5px">Overall Accuracy:</b>{{user_accuracy.accuracy |floatformat:2 }}%</p>
+                </div>
+            </div>
+        </div>
+        <button type="button" class="btn btn-success" style="float:right;margin:10px" id="history">Click Here to see
+            your test history</button>
+        <button type="button" class="btn btn-success" style="float:right;margin:10px;display:none"
+            id="hide-history">Hide test history</button>
+        <div class="test-history User-profile" id="tst-history" style="display: none;">
+            {% for item in user_test_history %}
+            <div class="test-activity" style="margin: 20px;">
+                <div class="user-details-inner">
+                    <h1>Test No</h1>
+                    <br>
+                    <hr>
+                    <span>Total Number of Questions</span><br>
+                    <span>Attempted Questions</span><br>
+                    <span>Correct Answered</span><br>
+                    <span>Wrong Answered</span><br>
+                    <span>Secured Marks</span><br>
+                    <span>Total Marks</span><br>
+                    <span>Percentage</span><br>
+                </div>
+                <div class="user-details-inner">
+                    <h1>{{ item.test_number }}</h1>
+                    <br>
+                    <hr>
+                    <span>: {{ item.total_test_questions }}</span><br>
+                    <span>: {{ item.attempted_questions }}</span><br>
+                    <span>: {{ item.correct_answered }}</span><br>
+                    <span>: {{ item.wrong_answered }}</span><br>
+                    <span>: {{ item.marks_secured }}</span><br>
+                    <span>: {{ item.total_marks }}</span><br>
+                    <span>: {{ item.percentage }}</span><br>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<script>
+    const history = document.getElementById("history");
+    const hideHistory = document.getElementById('hide-history')
+    history.addEventListener('click', function () {
+        document.getElementById('tst-history').style.display = 'flex'
+        history.style.display = 'none'
+        hideHistory.style.display = 'block'
+    })
+    hideHistory.addEventListener('click', function () {
+        document.getElementById('tst-history').style.display = 'none'
+        history.style.display = 'block'
+        hideHistory.style.display = 'none'
+    })
+    
+</script>
+{%endblock%}
